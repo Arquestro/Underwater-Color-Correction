@@ -30,7 +30,7 @@ import data_ops
 if __name__ == '__main__':
 
    if len(sys.argv) < 3:
-      print 'You must provide an info.pkl file and an image'
+      print('You must provide an info.pkl file and an image')
       exit()
 
    pkl_file = open(sys.argv[1], 'rb')
@@ -57,16 +57,16 @@ if __name__ == '__main__':
 
    test_image = sys.argv[2]
 
-   print
-   print 'LEARNING_RATE: ',LEARNING_RATE
-   print 'LOSS_METHOD:   ',LOSS_METHOD
-   print 'BATCH_SIZE:    ',BATCH_SIZE
-   print 'L1_WEIGHT:     ',L1_WEIGHT
-   print 'IG_WEIGHT:     ',IG_WEIGHT
-   print 'NETWORK:       ',NETWORK
-   print 'EPOCHS:        ',EPOCHS
-   print 'DATA:          ',DATA
-   print
+   print('\n')
+   print('LEARNING_RATE: ',LEARNING_RATE)
+   print('LOSS_METHOD:   ',LOSS_METHOD)
+   print('BATCH_SIZE:    ',BATCH_SIZE)
+   print('L1_WEIGHT:     ',L1_WEIGHT)
+   print('IG_WEIGHT:     ',IG_WEIGHT)
+   print('NETWORK:       ',NETWORK)
+   print('EPOCHS:        ',EPOCHS)
+   print('DATA:          ',DATA)
+   print('\n')
 
    if NETWORK == 'pix2pix': from pix2pix import *
    if NETWORK == 'resnet':  from resnet import *
@@ -89,12 +89,12 @@ if __name__ == '__main__':
 
    ckpt = tf.train.get_checkpoint_state(EXPERIMENT_DIR)
    if ckpt and ckpt.model_checkpoint_path:
-      print "Restoring previous model..."
+      print("Restoring previous model...")
       try:
          saver.restore(sess, ckpt.model_checkpoint_path)
-         print "Model restored"
+         print("Model restored")
       except:
-         print "Could not restore model"
+         print("Could not restore model")
          pass
    
    step = int(sess.run(global_step))

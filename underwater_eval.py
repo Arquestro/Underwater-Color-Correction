@@ -26,7 +26,7 @@ import data_ops
 if __name__ == '__main__':
 
    if len(sys.argv) < 3:
-      print 'You must provide an info.pkl file and a diving file'
+      print('You must provide an info.pkl file and a diving file')
       exit()
 
    pkl_file = open(sys.argv[1], 'rb')
@@ -53,18 +53,18 @@ if __name__ == '__main__':
 
    IMAGES_DIR     = EXPERIMENT_DIR+'diving'+num_d+'/'
 
-   print
-   print 'Creating',IMAGES_DIR
+   print('\n')
+   print('Creating',IMAGES_DIR)
    try: os.makedirs(IMAGES_DIR)
    except: pass
 
-   print
-   print 'LEARNING_RATE: ',LEARNING_RATE
-   print 'LOSS_METHOD:   ',LOSS_METHOD
-   print 'BATCH_SIZE:    ',BATCH_SIZE
-   print 'NETWORK:       ',NETWORK
-   print 'EPOCHS:        ',EPOCHS
-   print
+   print('\n')
+   print('LEARNING_RATE: ',LEARNING_RATE)
+   print('LOSS_METHOD:   ',LOSS_METHOD)
+   print('BATCH_SIZE:    ',BATCH_SIZE)
+   print('NETWORK:       ',NETWORK)
+   print('EPOCHS:        ',EPOCHS)
+   print('\n')
 
    if NETWORK == 'pix2pix': from pix2pix import *
    if NETWORK == 'resnet':  from resnet import *
@@ -86,12 +86,12 @@ if __name__ == '__main__':
 
    ckpt = tf.train.get_checkpoint_state(EXPERIMENT_DIR)
    if ckpt and ckpt.model_checkpoint_path:
-      print "Restoring previous model..."
+      print("Restoring previous model...")
       try:
          saver.restore(sess, ckpt.model_checkpoint_path)
-         print "Model restored"
+         print("Model restored")
       except:
-         print "Could not restore model"
+         print("Could not restore model")
          pass
    
    step = int(sess.run(global_step))
@@ -101,7 +101,7 @@ if __name__ == '__main__':
 
    num_test = len(test_paths)
 
-   print 'num test:',num_test
+   print('num test:', num_test)
 
    c = 0
    for img_path in tqdm(test_paths):

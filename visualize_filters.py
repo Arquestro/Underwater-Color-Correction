@@ -9,9 +9,10 @@ sys.path.insert(0, 'ops/')
 sys.path.insert(0, 'nets/')
 from tf_ops import *
 
-def put_kernels_on_grid (kernel, pad = 1):
 
-  '''Visualize conv. filters as an image (mostly for the 1st layer).
+def put_kernels_on_grid (kernel, pad = 1):
+  '''
+  Visualize conv. filters as an image (mostly for the 1st layer).
   Arranges filters into a grid, with some paddings between adjacent filters.
   Args:
     kernel:            tensor of shape [Y, X, NumChannels, NumKernels]
@@ -26,7 +27,7 @@ def put_kernels_on_grid (kernel, pad = 1):
         if i == 1: print('Who would enter a prime number of filters')
         return (i, int(n / i))
   (grid_Y, grid_X) = factorization (kernel.get_shape()[3].value)
-  print ('grid: %d = (%d, %d)' % (kernel.get_shape()[3].value, grid_Y, grid_X))
+  print('grid: %d = (%d, %d)' % (kernel.get_shape()[3].value, grid_Y, grid_X))
 
   x_min = tf.reduce_min(kernel)
   x_max = tf.reduce_max(kernel)
@@ -40,9 +41,9 @@ def put_kernels_on_grid (kernel, pad = 1):
   X = kernel.get_shape()[1] + 2 * pad
 
   channels = kernel.get_shape()[2]
-  print 'Y:',Y
-  print 'X:',X
-  print 'channels:',channels
+  print('Y:',Y)
+  print('X:',X)
+  print('channels:',channels)
 
   # put NumKernels to the 1st dimension
   x = tf.transpose(x, (3, 0, 1, 2))
@@ -68,7 +69,7 @@ def put_kernels_on_grid (kernel, pad = 1):
 if __name__ == '__main__':
 
    if len(sys.argv) < 2:
-      print 'You must provide an info.pkl file'
+      print('You must provide an info.pkl file')
       exit()
 
    pkl_file = open(sys.argv[1], 'rb')
@@ -106,12 +107,12 @@ if __name__ == '__main__':
 
    ckpt = tf.train.get_checkpoint_state(EXPERIMENT_DIR)
    if ckpt and ckpt.model_checkpoint_path:
-      print "Restoring previous model..."
+      print("Restoring previous model...")
       try:
          saver.restore(sess, ckpt.model_checkpoint_path)
-         print "Model restored"
+         print("Model restored")
       except:
-         print "Could not restore model"
+         print("Could not restore model")
          pass
 
 

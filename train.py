@@ -9,7 +9,7 @@
 
 '''
 
-import cPickle as pickle
+import pickle
 import tensorflow as tf
 from scipy import misc
 from tqdm import tqdm
@@ -61,8 +61,8 @@ if __name__ == '__main__':
 
    IMAGES_DIR      = EXPERIMENT_DIR+'images/'
 
-   print
-   print 'Creating',EXPERIMENT_DIR
+   print('\n')
+   print('Creating',EXPERIMENT_DIR)
    try: os.makedirs(IMAGES_DIR)
    except: pass
    try: os.makedirs(TEST_IMAGES_DIR)
@@ -85,17 +85,17 @@ if __name__ == '__main__':
    exp_pkl.write(data)
    exp_pkl.close()
    
-   print
-   print 'LEARNING_RATE: ',LEARNING_RATE
-   print 'LOSS_METHOD:   ',LOSS_METHOD
-   print 'BATCH_SIZE:    ',BATCH_SIZE
-   print 'L1_WEIGHT:     ',L1_WEIGHT
-   print 'IG_WEIGHT:     ',IG_WEIGHT
-   print 'NETWORK:       ',NETWORK
-   print 'AUGMENT:       ',AUGMENT
-   print 'EPOCHS:        ',EPOCHS
-   print 'DATA:          ',DATA
-   print
+   print('\n')
+   print('LEARNING_RATE: ',LEARNING_RATE)
+   print('LOSS_METHOD:   ',LOSS_METHOD)
+   print('BATCH_SIZE:    ',BATCH_SIZE)
+   print('L1_WEIGHT:     ',L1_WEIGHT)
+   print('IG_WEIGHT:     ',IG_WEIGHT)
+   print('NETWORK:       ',NETWORK)
+   print('AUGMENT:       ',AUGMENT)
+   print('EPOCHS:        ',EPOCHS)
+   print('DATA:          ',DATA)
+   print('\n')
 
    if NETWORK == 'pix2pix': from pix2pix import *
    if NETWORK == 'resnet': from resnet import *
@@ -121,13 +121,13 @@ if __name__ == '__main__':
 
    e = 1e-12
    if LOSS_METHOD == 'least_squares':
-      print 'Using least squares loss'
+      print('Using least squares loss')
       errD_real = tf.nn.sigmoid(D_real)
       errD_fake = tf.nn.sigmoid(D_fake)
       errG = 0.5*(tf.reduce_mean(tf.square(errD_fake - 1)))
       errD = tf.reduce_mean(0.5*(tf.square(errD_real - 1)) + 0.5*(tf.square(errD_fake)))
    if LOSS_METHOD == 'gan':
-      print 'Using original GAN loss'
+      print('Using original GAN loss')
       errD_real = tf.nn.sigmoid(D_real)
       errD_fake = tf.nn.sigmoid(D_fake)
       errG = tf.reduce_mean(-tf.log(errD_fake + e))
@@ -184,12 +184,12 @@ if __name__ == '__main__':
 
    ckpt = tf.train.get_checkpoint_state(EXPERIMENT_DIR)
    if ckpt and ckpt.model_checkpoint_path:
-      print "Restoring previous model..."
+      print("Restoring previous model...")
       try:
          saver.restore(sess, ckpt.model_checkpoint_path)
-         print "Model restored"
+         print("Model restored")
       except:
-         print "Could not restore model"
+         print("Could not restore model")
          pass
    
    step = int(sess.run(global_step))
@@ -204,7 +204,7 @@ if __name__ == '__main__':
    #test_paths = np.asarray(glob.glob('datasets/'+DATA+'/test/*.jpg'))
    test_paths = np.asarray(glob.glob('datasets/'+DATA+'/trainA/*.jpg'))
 
-   print len(trainB_paths),'training images'
+   print(len(trainB_paths),'training images')
 
    num_train = len(trainB_paths)
    num_test  = len(test_paths)
@@ -255,7 +255,7 @@ if __name__ == '__main__':
             r = random.random()
             # perform some gaussian blur on distorted image
             if r < 0.5:
-               #print 'blur'
+               #print('blur')
                a_img = cv2.filter2D(a_img,-1,kernel)
 
          batchA_images[i, ...] = a_img
@@ -271,21 +271,21 @@ if __name__ == '__main__':
       summary_writer.add_summary(summary, step)
 
       ss = time.time()-s
-      print 'epoch:',epoch_num,'step:',step,'D loss:',D_loss,'G_loss:',G_loss,'time:',ss
+      print('epoch:',epoch_num,'step:',step,'D loss:',D_loss,'G_loss:',G_loss,'time:',ss)
       step += 1
       
       if step%500 == 0:
-         print 'Saving model...'
+         print('Saving model...')
          saver.save(sess, EXPERIMENT_DIR+'checkpoint-'+str(step))
          saver.export_meta_graph(EXPERIMENT_DIR+'checkpoint-'+str(step)+'.meta')
-         print 'Model saved\n'
+         print('Model saved\n')
 
          idx = np.random.choice(np.arange(num_test), BATCH_SIZE, replace=False)
          batch_paths = test_paths[idx]
          
          batch_images = np.empty((BATCH_SIZE, 256, 256, 3), dtype=np.float32)
 
-         print 'Testing...'
+         print('Testing...')
          i = 0
          for a in batch_paths:
             a_img = misc.imread(a).astype('float32')
@@ -301,4 +301,4 @@ if __name__ == '__main__':
             misc.imsave(IMAGES_DIR+str(step)+'_gen.png', gen)
             c += 1
             if c == 5: break
-         print 'Done with test images'
+         print('Done with test images')
